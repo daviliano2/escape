@@ -72,3 +72,6 @@ crashlytics-build.properties
 
 # Others
 .vscode/settings.json
+
+# Private assets
+/Assets/PolygonSciFiCity
