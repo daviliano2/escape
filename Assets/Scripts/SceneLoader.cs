@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +27,7 @@ public class SceneLoader : MonoBehaviour
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         int totalNumberScenes = SceneManager.sceneCountInBuildSettings;
-        
+
         SceneManager.LoadScene(currentScene + 1);
     }
 }
