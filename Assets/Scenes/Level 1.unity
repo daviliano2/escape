@@ -1155,7 +1155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4622954476587276, guid: 5d40c48a597edbe4b9db9adac55501ae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 4622954476587276, guid: 5d40c48a597edbe4b9db9adac55501ae, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1358,7 +1358,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 70.00001
+  field of view: 55
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1792,7 +1792,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xSpeed: 4
-  rotationZSpeed: 20
+  positionPitchFactor: -60
+  controlPitchFactor: -45
+  positionYawFactor: 60
+  controlYawFactor: 25
+  controlRollFactor: -35
 --- !u!1001 &1268280444
 PrefabInstance:
   m_ObjectHideFlags: 0

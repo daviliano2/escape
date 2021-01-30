@@ -6,28 +6,47 @@ using UnityStandardAssets.CrossPlatformInput;
 public class Player : MonoBehaviour
 {
     [Tooltip("In meters per second")] [SerializeField] float xSpeed = 4f;
-    [SerializeField] float rotationZSpeed = 20f;
 
-    // Start is called before the first frame update
+    // to have the right rotation we need to modify the rotation values in the DroneRotation method
+    // by some factor that can be adjusted to achieve the desired effect
+    [SerializeField] float positionPitchFactor = -60f; 
+    [SerializeField] float controlPitchFactor = -45f;
+    [SerializeField] float positionYawFactor = 60f; 
+    [SerializeField] float controlYawFactor = 25f;
+    [SerializeField] float controlRollFactor = -35f;
+
+    float xThrow, yThrow;
+
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
+        DroneMovement();
+        DroneRotation();
+    }
+
+    void DroneMovement()
+    {
+        xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
+        yThrow = CrossPlatformInputManager.GetAxis("Vertical");
+
         float xOffset = xThrow * xSpeed * Time.deltaTime;
+        float yOffset = yThrow * xSpeed * Time.deltaTime;
+
         float newXPos = Mathf.Clamp(transform.localPosition.x + xOffset, -0.35f, 0.35f);
+        float newYPos = Mathf.Clamp(transform.localPosition.y + yOffset, -0.20f, 0.25f);
 
-        transform.localPosition = new Vector3(newXPos, transform.localPosition.y, transform.localPosition.z);
+        transform.localPosition = new Vector3(newXPos, newYPos, transform.localPosition.z);
+    }
 
-        float zThrow = CrossPlatformInputManager.GetAxis("Roll");
-        // float zOffset = zThrow * rotationZSpeed * Time.deltaTime;
-        float zOffset =  Mathf.Clamp(zThrow * rotationZSpeed * Time.deltaTime, -90f, 90f);
-        // float newZRotation = Mathf.Clamp(transform.localRotation.z + zOffset, -90f, 90f);
-
-        transform.Rotate(transform.localRotation.x, transform.localRotation.y, zOffset);
+    void DroneRotation()
+    {
+        float pitch = transform.localPosition.y * positionPitchFactor + yThrow * controlPitchFactor; // X rotation axis
+        float yaw = transform.localPosition.x * positionYawFactor + xThrow * controlYawFactor; // Y rotation axis
+        float roll = xThrow * controlRollFactor; // Z rotation axis
+        transform.localRotation = Quaternion.Euler(pitch, yaw, roll);
     }
 }
