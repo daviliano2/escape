@@ -6,6 +6,9 @@ using UnityStandardAssets.CrossPlatformInput;
 public class Player : MonoBehaviour
 {
     [Tooltip("In meters per second")] [SerializeField] float xSpeed = 4f;
+    [Tooltip("movement limits")] [SerializeField] float xClamp = 0.35f;
+    [Tooltip("movement limits")] [SerializeField] float yClampMin = 0.20f;
+    [Tooltip("movement limits")] [SerializeField] float yClampMax = 0.25f;
 
     // to have the right rotation we need to modify the rotation values in the DroneRotation method
     // by some factor that can be adjusted to achieve the desired effect
@@ -36,8 +39,8 @@ public class Player : MonoBehaviour
         float xOffset = xThrow * xSpeed * Time.deltaTime;
         float yOffset = yThrow * xSpeed * Time.deltaTime;
 
-        float newXPos = Mathf.Clamp(transform.localPosition.x + xOffset, -0.35f, 0.35f);
-        float newYPos = Mathf.Clamp(transform.localPosition.y + yOffset, -0.20f, 0.25f);
+        float newXPos = Mathf.Clamp(transform.localPosition.x + xOffset, -xClamp, xClamp);
+        float newYPos = Mathf.Clamp(transform.localPosition.y + yOffset, -yClampMin, yClampMax);
 
         transform.localPosition = new Vector3(newXPos, newYPos, transform.localPosition.z);
     }
